@@ -8,10 +8,14 @@ export const tierChip = (tier) => (tier ? `<span class="chip t-${TIER_TONE[tier]
 
 const fill = (c) => c.grad || c.hex;
 
-/** Paint-chip cards for every colour of an element. variant: "lead" | "small" | "avoid" */
+// red "no" badge on avoid chips: the colour stays fully visible, the badge says don't
+const BAN = '<b class="ban" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m6.5 6.5 11 11"/></svg></b>';
+
+/** Paint-chip cards for every colour of an element, all on one row. variant: "lead" | "small" | "avoid" */
 export function swatches(el, variant) {
+  const badge = variant === "avoid" ? BAN : "";
   const tiles = ELEM[el].colours
-    .map((c) => `<span class="sw${c.grad ? " metal" : ""}"><i style="--c:${fill(c)}"></i><span>${t(`colour.${c.key}`)}</span></span>`)
+    .map((c) => `<span class="sw${c.grad ? " metal" : ""}"><i style="--c:${fill(c)}">${badge}</i><span>${t(`colour.${c.key}`)}</span></span>`)
     .join("");
   return `<div class="swatches${variant ? " " + variant : ""}">${tiles}</div>`;
 }

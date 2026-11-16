@@ -1,5 +1,5 @@
 // Offline support. Bump VERSION when you change any file below so phones pick up the update.
-var VERSION = "fs-compass-v5";
+var VERSION = "fs-compass-v6";
 var SHELL = [
   "./",
   "./index.html",

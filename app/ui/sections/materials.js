@@ -13,7 +13,7 @@ export function materialsSection(r) {
   for (const k of MAT_TIERS) {
     const e = rel[k];
     b += `<div class="card mat mat-${k}"><h3>${t(`mats.tier.${k}`)}</h3>`;
-    b += `<p class="mat-el">${tierChip(k)} ${t("mats.elOf", { el: el(e) })}</p>`;
+    b += `<p class="mat-el">${tierChip(k)}<span>${t("mats.elOf", { el: el(e) })}</span></p>`;
     b += tags(tv(`elem.${e}.home`));
     b += `<p class="mat-sh">${t("mats.shapes", { shapes: tv(`elem.${e}.shapes`).join(" ") })}</p></div>`;
   }
