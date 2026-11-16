@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "ត្រីវិស័យហុងស៊ុយ",
+  "short_name": "ហុងស៊ុយ",
+  "description": "គណនាលេខគួ ទិសល្អ និងទិសអាក្រក់ ព្រមទាំងផ្កាយហោះប្រចាំឆ្នាំ",
+  "lang": "km",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F1F3F9",
+  "theme_color": "#F1F3F9",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "feng-shui-compass",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Khmer feng shui calculator: Kua, Eight Mansions, Period 9 annual stars, lucky numbers, colours and materials. Static PWA, no build step.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 5173 --directory app",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
