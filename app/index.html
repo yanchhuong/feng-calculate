@@ -123,11 +123,12 @@ button:focus-visible,.seg input:focus-visible+span{outline:2px solid var(--prima
 .wheel-h,.wheel{display:grid;grid-template-columns:.8fr 1.5fr 1.1fr;gap:4px}
 .wheel-h{padding:0 5px 4px;font-size:.78rem;color:var(--muted);text-align:center}
 .wheel{position:relative;padding:0 4px;background:var(--surface-2);border-radius:18px;overflow:hidden}
-.wheel::before{content:"";position:absolute;left:4px;right:4px;top:80px;height:40px;border-radius:12px;background:var(--surface);box-shadow:0 6px 16px -8px rgba(48,66,150,.35);pointer-events:none}
-.wcol{position:relative;height:200px;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;outline:none;
-  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 32%,#000 68%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 32%,#000 68%,transparent)}
+/* 3 visible rows (40px each): one above, the selection, one below */
+.wheel::before{content:"";position:absolute;left:4px;right:4px;top:40px;height:40px;border-radius:12px;background:var(--surface);box-shadow:0 6px 16px -8px rgba(48,66,150,.35);pointer-events:none}
+.wcol{position:relative;height:120px;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none;outline:none;
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.4),#000 38%,#000 62%,rgba(0,0,0,.4));mask-image:linear-gradient(to bottom,rgba(0,0,0,.4),#000 38%,#000 62%,rgba(0,0,0,.4))}
 .wcol::-webkit-scrollbar{display:none}
-.wcol::before,.wcol::after{content:"";display:block;height:80px}
+.wcol::before,.wcol::after{content:"";display:block;height:40px}
 .wi{height:40px;line-height:40px;text-align:center;scroll-snap-align:center;color:var(--muted);font-size:1.02rem;white-space:nowrap;cursor:pointer;font-variant-numeric:tabular-nums;border-radius:12px;transition:color .15s ease}
 .wi.on{color:var(--ink);font-weight:700}
 .wi.off{opacity:.3;cursor:default}
