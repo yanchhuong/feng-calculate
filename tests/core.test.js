@@ -178,3 +178,57 @@ test("house: facing N sits S (East group); door star from the year chart", () =>
   assert.equal(r.house.doorStar, 6);
   assert.equal(r.house.doorClass, "ty");
 });
+
+// ---- Eight Mansions (八宅) tables against the cited sources (app/data/refs.js) ----
+import { KUA, ORDER, CLS, KUA_INFO, LUCK_ZH, GROUP_ZH } from "../app/data/kua.js";
+import { DIR_TRI } from "../app/data/directions.js";
+
+// refs.youNian: the 大遊年歌 of 八宅明鏡. Each line is a trigram, then its class with the next 7 trigrams in
+// 後天 order 乾坎艮震巽離坤兌 (wrapping). Its one-character class names are the ones the app shows (CLS.zh):
+// 生=生氣 天=天醫 延=延年 禍=禍害 六=六煞 五=五鬼 絕=絕命, and the trigram itself = 伏位.
+// (refs.classes lists the same 64 pairings, but 8 of its entries contradict their own mirror pair, e.g. 艮門巽主 六煞 vs
+// 巽門艮主 絕命, so the song is the check.)
+const SONG = ["乾六天五禍絕延生", "坎五天生延絕禍六", "艮六絕禍生延天五", "震延生禍絕五天六", "巽天五六禍生絕延", "離六五絕延禍生天", "坤天延絕生禍五六", "兌生禍延絕六五天"];
+const SEQ = "乾坎艮震巽離坤兌";
+const ABBR = Object.fromEntries(Object.entries(CLS).map(([k, c]) => [c.zh, k]));
+
+test("KUA table matches the 大遊年歌 for all 8 trigrams × 8 directions", () => {
+  const kuaOfTri = Object.fromEntries(Object.entries(KUA_INFO).map(([k, v]) => [v.zh, +k]));
+  const dirOfTri = Object.fromEntries(Object.entries(DIR_TRI).map(([d, tri]) => [tri, d]));
+  let n = 0;
+  for (const line of SONG) {
+    const own = line[0];
+    const kua = kuaOfTri[own];
+    assert.equal(KUA[kua].fw, dirOfTri[own], `${own} 伏位`);
+    const i = SEQ.indexOf(own);
+    for (let j = 1; j <= 7; j++) {
+      const other = SEQ[(i + j) % 8];
+      const c = ABBR[line[j]];
+      assert.equal(KUA[kua][c], dirOfTri[other], `${own}→${other} should be ${CLS[c].zh}`);
+    }
+    n += 8;
+  }
+  assert.equal(n, 64);
+});
+
+test("each Kua's trigram rules its own 伏位 direction (Later Heaven bagua)", () => {
+  for (const k of Object.keys(KUA)) assert.equal(DIR_TRI[KUA[k].fw], KUA_INFO[k].zh, `Kua ${k}`);
+});
+
+test("8 classes: one-character names, 九星, ordered best to worst", () => {
+  assert.deepEqual(ORDER.map((k) => CLS[k].zh), ["生", "天", "延", "伏", "禍", "六", "五", "絕"]);
+  assert.deepEqual(ORDER.map((k) => CLS[k].star), ["貪", "巨", "武", "輔", "祿", "文", "廉", "破"]);
+  for (let i = 1; i < ORDER.length; i++) assert.ok(CLS[ORDER[i]].score <= CLS[ORDER[i - 1]].score, ORDER[i]);
+  for (const k of ORDER) assert.ok(km.cls[k].name && km.el[CLS[k].starEl], k);
+});
+
+test("Chinese labels are one character each (short form, not full names)", () => {
+  const labels = [
+    ...Object.values(CLS).flatMap((c) => [c.zh, c.star]),
+    ...Object.values(KUA_INFO).flatMap((k) => [k.zh, k.nature]),
+    ...Object.values(LUCK_ZH),
+    ...Object.values(GROUP_ZH),
+    ...Object.values(DIR_TRI),
+  ];
+  for (const s of labels) assert.equal([...s].length, 1, s);
+});

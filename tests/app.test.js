@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const APP = fileURLToPath(new URL("../app/", import.meta.url));
@@ -65,6 +65,17 @@ test("core/ is pure: no DOM, storage or network", () => {
 test("service worker precaches every module and the locale", () => {
   const sw = read("sw.js");
   const shell = [...sw.matchAll(/"\.\/([^"]+)"/g)].map((m) => m[1]);
-  const need = ["main.js", "i18n/km.json", ...js("core"), ...js("data"), ...js("ui")].map((f) => relative(".", f));
+  const need = ["main.js", "i18n/km.json", ...js("core"), ...js("data"), ...js("ui")].map((f) => relative(".", f).split(sep).join("/")); // posix paths, also on Windows
   assert.deepEqual(need.filter((f) => !shell.includes(f)), []);
+});
+
+test("every result section lists its sources, and every source is an https link", async () => {
+  const { REFS, SECTION_REFS } = await import("../app/data/refs.js");
+  for (const [id, r] of Object.entries(REFS)) assert.match(r.url, /^https:\/\/[^\s"<>]+$/, id);
+  const ids = js("ui/sections").flatMap((f) => [...read(f).matchAll(/\bsec\(\s*"(\w+)"/g)].map((m) => m[1]));
+  assert.ok(ids.length >= 8);
+  for (const id of ids) {
+    assert.ok(SECTION_REFS[id] && SECTION_REFS[id].length, `section ${id} has no references`);
+    for (const r of SECTION_REFS[id]) assert.ok(REFS[r], `${id}: unknown ref ${r}`);
+  }
 });

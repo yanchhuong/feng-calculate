@@ -1,6 +1,11 @@
 import { t } from "../i18n.js";
 import { sec } from "../fold.js";
 import { compassSVG } from "../compass.js";
+import { KUA_INFO, GROUP_ZH } from "../../data/kua.js";
+import { zh } from "../refs.js";
+
+/** Trigram as: 坎 + Khmer name */
+export const triLabel = (kua) => `${zh(KUA_INFO[kua].zh)} ${t(`kua.${kua}.tri`)}`;
 
 /** 1. Profile hero: Kua card (number, group, element, trigram), compass (N/S toggle), facts, edge-case notes */
 export function profileSection(r, { orient }) {
@@ -17,8 +22,8 @@ export function profileSection(r, { orient }) {
   b +=
     `<div class="kcard"><div class="kc-top"><div><p class="kc-l">${t("profile.kcLabel")}</p><p class="kc-n">${r.kua}</p></div>` +
     `<span class="kc-tri" aria-hidden="true">${r.trigram}</span></div>` +
-    `<p class="kc-g">${t("profile.kcGroup", { group: t(`group.${r.group}`), el: t(`el.${r.el}`) })}</p>` +
-    `<p class="kc-s">${t("profile.kcTri", { tri: t(`kua.${r.kua}.tri`) })}</p></div>`;
+    `<p class="kc-g">${t("profile.kcGroup", { group: `${t(`group.${r.group}`)} ${zh(GROUP_ZH[r.group])}`, el: t(`el.${r.el}`) })}</p>` +
+    `<p class="kc-s">${t("profile.kcTri", { tri: triLabel(r.kua) })}</p></div>`;
   b += `<div class="ccard"><div class="compass reveal">${compassSVG(r, orient === "S" ? 180 : 0, t("profile.compassAria", { kua: r.kua }))}</div>`;
   b += `<div class="orient"><span>${t("profile.top")}</span><button type="button" class="ghost" id="flip">${t(orient === "N" ? "profile.topN" : "profile.topS")}</button></div></div>`;
   b += '<dl class="facts">';

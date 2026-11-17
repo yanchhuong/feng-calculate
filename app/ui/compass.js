@@ -34,8 +34,10 @@ export function compassSVG(r, rot, label) {
     const tone = k ? CLS[k].tone : null;
     s += `<path d="${wedge(cx, cy, 58, 130, a - 22.2, a + 22.2)}" fill="${tone ? FILL[tone] : "var(--surface-2)"}" stroke="var(--surface)" stroke-width="3" stroke-linejoin="round"/>`;
     if (k) {
+      // one-character Chinese class name (生 ... 絕) above the Khmer short label
       const lp = pt(cx, cy, 95, a);
-      s += `<text x="${lp[0].toFixed(1)}" y="${(lp[1] + 4).toFixed(1)}" text-anchor="middle" font-size="12.5" font-weight="600" fill="${TXT[tone]}">${t(`cls.${k}.short`)}</text>`;
+      s += `<text x="${lp[0].toFixed(1)}" y="${(lp[1] - 5).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="700" lang="zh-Hant" fill="${TXT[tone]}">${CLS[k].zh}</text>`;
+      s += `<text x="${lp[0].toFixed(1)}" y="${(lp[1] + 13).toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="600" fill="${TXT[tone]}">${t(`cls.${k}.short`)}</text>`;
     }
     const dp = pt(cx, cy, 156, a);
     const strong = d === "N" || d === "S";

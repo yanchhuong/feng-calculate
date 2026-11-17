@@ -1,4 +1,5 @@
 import { t } from "./i18n.js";
+import { refList } from "./refs.js";
 
 // Foldable result sections. Each section's open/closed state is remembered per id.
 const FKEY = "fs-compass-km-folds";
@@ -18,11 +19,12 @@ function saveFolds() {
 const CHEV =
   '<span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 
+/** A foldable result section. Its sources (data/refs.js SECTION_REFS[id]) are listed at the end. */
 export function sec(id, title, body, cls) {
   return (
     `<details class="block fold" data-id="${id}"${folds[id] === false ? "" : " open"}>` +
     `<summary><h2>${title}</h2>${CHEV}</summary>` +
-    `<div class="fold-body${cls ? " " + cls : ""}">${body}</div></details>`
+    `<div class="fold-body${cls ? " " + cls : ""}">${body}${refList(id)}</div></details>`
   );
 }
 

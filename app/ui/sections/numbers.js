@@ -3,6 +3,9 @@ import { checkNumber, relOf } from "../../core/index.js";
 import { t, esc } from "../i18n.js";
 import { sec } from "../fold.js";
 import { tierChip } from "../swatch.js";
+import { KUA_INFO } from "../../data/kua.js";
+import { zh } from "../refs.js";
+import { triLabel } from "./profile.js";
 
 const TONE_CHIP = { g: "g3", n: "n", b: "b3" };
 const VERDICT_CHIP = { great: "g1", good: "g2", fair: "ok", poor: "b1" };
@@ -37,7 +40,7 @@ export function numbersSection(r, { num }) {
   let b = `<p class="sub">${t("nums.sub", { el: el(r.el), kua: r.kua })}</p>`;
 
   b += `<div class="card trait"><h3>${t("nums.traitsH")}</h3>`;
-  b += `<p class="trait-tri"><span aria-hidden="true">${r.trigram}</span> ${t("nums.traitsSub", { tri: t(`kua.${r.kua}.tri`), nature: t(`kua.${r.kua}.nature`) })}</p>`;
+  b += `<p class="trait-tri"><span aria-hidden="true">${r.trigram}</span> ${t("nums.traitsSub", { tri: triLabel(r.kua), nature: `${t(`kua.${r.kua}.nature`)} ${zh(KUA_INFO[r.kua].nature)}` })}</p>`;
   b += `<p>${t(`kua.${r.kua}.traits`)}</p></div>`;
 
   b += '<div class="twocol">';

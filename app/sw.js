@@ -1,5 +1,5 @@
 // Offline support. Bump VERSION when you change any file below so phones pick up the update.
-var VERSION = "fs-compass-v8";
+var VERSION = "fs-compass-v9";
 var SHELL = [
   "./",
   "./index.html",
@@ -23,6 +23,7 @@ var SHELL = [
   "./data/directions.js",
   "./data/elements.js",
   "./data/kua.js",
+  "./data/refs.js",
   "./data/stars.js",
   "./data/zodiac.js",
   "./ui/compass.js",
@@ -31,6 +32,7 @@ var SHELL = [
   "./ui/i18n.js",
   "./ui/icons.js",
   "./ui/loShuGrid.js",
+  "./ui/refs.js",
   "./ui/sections/annualStars.js",
   "./ui/sections/colours.js",
   "./ui/sections/directions.js",
